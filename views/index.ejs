@@ -48,52 +48,35 @@
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
         }
 
-        .summary-card {
-            background: linear-gradient(90deg, #6f42c1, #0d6efd);
-            color: white;
-            padding: 22px;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-        }
-
-        .summary-card h5 {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .summary-card h2 {
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background-color: #f8f9fa;
-            color: black;
-            font-weight: bold;
-            padding: 14px;
-        }
-
-        .table tbody td {
-            padding: 14px;
-            vertical-align: middle;
-        }
-
-        .badge {
-            font-size: 0.85rem;
-            padding: 8px 10px;
-        }
         .mood-table {
-            table-layout: fixed;
             width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            border: 2px solid #212529;
+            margin-bottom: 0;
+            background-color: white;
         }
 
         .mood-table th,
         .mood-table td {
+            border: 1.5px solid #212529;
             padding: 14px 10px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .mood-table thead th {
+            background-color: #f8f9fa;
+            color: black;
+            font-weight: bold;
+        }
+
+        .mood-table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .mood-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
         .mood-table th:nth-child(1),
@@ -104,6 +87,7 @@
         .mood-table th:nth-child(2),
         .mood-table td:nth-child(2) {
             width: 10%;
+            white-space: nowrap;
         }
 
         .mood-table th:nth-child(3),
@@ -120,7 +104,8 @@
 
         .mood-table th:nth-child(6),
         .mood-table td:nth-child(6) {
-            width: 24%;
+            width: 23%;
+            text-align: left;
         }
 
         .mood-table th:nth-child(7),
@@ -132,16 +117,7 @@
         .mood-table td:nth-child(8),
         .mood-table th:nth-child(9),
         .mood-table td:nth-child(9) {
-            width: 9%;
-        }
-
-        .date-cell {
-            white-space: nowrap;
-        }
-
-        .comment-cell {
-            line-height: 1.4;
-            word-break: normal;
+            width: 10%;
         }
 
         .badge {
@@ -149,7 +125,9 @@
             padding: 8px 10px;
         }
 
-        
+        .btn {
+            border-radius: 6px;
+        }
     </style>
 </head>
 
@@ -163,103 +141,95 @@
         <!-- Page title card -->
         <div class="content-card mb-4">
             <h1 class="page-title">Daily Mood Tracker</h1>
-            <p class="text-muted mb-0">Track your mood, energy, stress level, and daily reflection.</p>
-        </div>
-
-        <!-- Simple mood summary -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="summary-card">
-                    <h5>Total Mood Entries</h5>
-                    <h2><%= moods.length %></h2>
-                </div>
-            </div>
+            <p class="text-muted mb-0">
+                Track your mood, energy, stress level, and daily reflection.
+            </p>
         </div>
 
         <!-- Mood entries table -->
-<div class="content-card">
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle text-center mood-table">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Date</th>
-                    <th>Mood</th>
-                    <th>Energy</th>
-                    <th>Stress</th>
-                    <th class="text-start">Comment</th>
-                    <th>Status</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
+        <div class="content-card">
+            <div class="table-responsive">
+                <table class="mood-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Date</th>
+                            <th>Mood</th>
+                            <th>Energy</th>
+                            <th>Stress</th>
+                            <th>Comment</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
 
-            <tbody>
-                <!-- Loop through all mood entries and display each one -->
-                <% for (let i = 0; i < moods.length; i++) { %>
-                    <tr>
-                        <td><%= i + 1 %></td>
+                    <tbody>
+                        <!-- Loop through all mood entries and display each one -->
+                        <% for (let i = 0; i < moods.length; i++) { %>
+                            <tr>
+                                <td><%= i + 1 %></td>
 
-                        <td class="date-cell">
-                            <%= formatDate(moods[i].date) %>
-                        </td>
+                                <td><%= formatDate(moods[i].date) %></td>
 
-                        <td>
-                            <% if (moods[i].mood === 'Focused') { %>
-                                <span class="badge bg-primary">Focused</span>
-                            <% } else if (moods[i].mood === 'Motivated') { %>
-                                <span class="badge bg-success">Motivated</span>
-                            <% } else if (moods[i].mood === 'Calm') { %>
-                                <span class="badge bg-info text-dark">Calm</span>
-                            <% } else if (moods[i].mood === 'Drained') { %>
-                                <span class="badge bg-secondary">Drained</span>
-                            <% } else if (moods[i].mood === 'Stressed') { %>
-                                <span class="badge bg-danger">Stressed</span>
-                            <% } else { %>
-                                <span class="badge bg-dark"><%= moods[i].mood %></span>
-                            <% } %>
-                        </td>
+                                <td>
+                                    <% if (moods[i].mood === 'Focused') { %>
+                                        <span class="badge bg-primary">Focused</span>
+                                    <% } else if (moods[i].mood === 'Motivated') { %>
+                                        <span class="badge bg-success">Motivated</span>
+                                    <% } else if (moods[i].mood === 'Calm') { %>
+                                        <span class="badge bg-info text-dark">Calm</span>
+                                    <% } else if (moods[i].mood === 'Drained') { %>
+                                        <span class="badge bg-secondary">Drained</span>
+                                    <% } else if (moods[i].mood === 'Stressed') { %>
+                                        <span class="badge bg-danger">Stressed</span>
+                                    <% } else { %>
+                                        <span class="badge bg-dark"><%= moods[i].mood %></span>
+                                    <% } %>
+                                </td>
 
-                        <td><%= moods[i].energy %></td>
-                        <td><%= moods[i].stress %></td>
+                                <td><%= moods[i].energy %></td>
 
-                        <td class="text-start comment-cell">
-                            <%= moods[i].comment %>
-                        </td>
+                                <td><%= moods[i].stress %></td>
 
-                        <!-- Mood status based on mood and stress level -->
-                        <td>
-                            <% const status = getMoodStatus(moods[i].mood, moods[i].stress); %>
+                                <td><%= moods[i].comment %></td>
 
-                            <% if (status === 'Productive') { %>
-                                <span class="badge bg-success">Productive</span>
-                            <% } else if (status === 'Balanced') { %>
-                                <span class="badge bg-info text-dark">Balanced</span>
-                            <% } else if (status === 'Needs Rest') { %>
-                                <span class="badge bg-warning text-dark">Needs Rest</span>
-                            <% } else if (status === 'Low Energy') { %>
-                                <span class="badge bg-secondary">Low Energy</span>
-                            <% } else { %>
-                                <span class="badge bg-dark">Neutral</span>
-                            <% } %>
-                        </td>
+                                <!-- Mood status based on mood and stress level -->
+                                <td>
+                                    <% const status = getMoodStatus(moods[i].mood, moods[i].stress); %>
 
-                        <td>
-                            <a href="/moods/<%= moods[i].id %>/update" class="btn btn-sm btn-outline-primary">
-                                Edit
-                            </a>
-                        </td>
+                                    <% if (status === 'Productive') { %>
+                                        <span class="badge bg-success">Productive</span>
+                                    <% } else if (status === 'Balanced') { %>
+                                        <span class="badge bg-info text-dark">Balanced</span>
+                                    <% } else if (status === 'Needs Rest') { %>
+                                        <span class="badge bg-warning text-dark">Needs Rest</span>
+                                    <% } else if (status === 'Low Energy') { %>
+                                        <span class="badge bg-secondary">Low Energy</span>
+                                    <% } else { %>
+                                        <span class="badge bg-dark">Neutral</span>
+                                    <% } %>
+                                </td>
 
-                        <td>
-                            <a href="/moods/<%= moods[i].id %>/delete" class="btn btn-sm btn-outline-danger">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
+                                <td>
+                                    <a href="/moods/<%= moods[i].id %>/update" class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a href="/moods/<%= moods[i].id %>/delete" class="btn btn-sm btn-outline-danger">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-</div>
+
 </body>
 </html>
