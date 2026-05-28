@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Mood Entry</title>
+
+    <!-- Bootstrap CSS and JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #6f42c1, #0d6efd);
+            padding: 14px 20px;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+            font-size: 1.3rem;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .content-card {
+            background-color: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-title {
+            color: #4b2e83;
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #4b2e83;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .btn-main {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .btn-main:hover {
+            background-color: #084298;
+            color: white;
+        }
+
+        .btn-secondary {
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Reusable navigation bar -->
+    <%- include('partials/navbar.ejs') %>
+
+    <div class="container mt-5">
+        <div class="content-card mx-auto" style="max-width: 850px;">
+
+            <!-- Page heading -->
+            <h1 class="page-title">Update Mood Entry</h1>
+            <p class="page-subtitle">Edit the selected mood entry and save the updated details.</p>
+
+            <!-- Form sends updated mood data to app.js -->
+            <form action="/moods/<%= updateMood.id %>/update" method="POST">
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input 
+                        type="date" 
+                        class="form-control" 
+                        id="date" 
+                        name="date" 
+                        value="<%= updateMood.date %>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="mood" class="form-label">Mood</label>
+                    <select class="form-select" id="mood" name="mood">
+                        <option value="Focused" <%= updateMood.mood === 'Focused' ? 'selected' : '' %>>Focused</option>
+                        <option value="Motivated" <%= updateMood.mood === 'Motivated' ? 'selected' : '' %>>Motivated</option>
+                        <option value="Calm" <%= updateMood.mood === 'Calm' ? 'selected' : '' %>>Calm</option>
+                        <option value="Happy" <%= updateMood.mood === 'Happy' ? 'selected' : '' %>>Happy</option>
+                        <option value="Okay" <%= updateMood.mood === 'Okay' ? 'selected' : '' %>>Okay</option>
+                        <option value="Tired" <%= updateMood.mood === 'Tired' ? 'selected' : '' %>>Tired</option>
+                        <option value="Drained" <%= updateMood.mood === 'Drained' ? 'selected' : '' %>>Drained</option>
+                        <option value="Stressed" <%= updateMood.mood === 'Stressed' ? 'selected' : '' %>>Stressed</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="energy" class="form-label">Energy Level</label>
+                    <select class="form-select" id="energy" name="energy">
+                        <option value="High" <%= updateMood.energy === 'High' ? 'selected' : '' %>>High</option>
+                        <option value="Medium" <%= updateMood.energy === 'Medium' ? 'selected' : '' %>>Medium</option>
+                        <option value="Low" <%= updateMood.energy === 'Low' ? 'selected' : '' %>>Low</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="stress" class="form-label">Stress Level</label>
+                    <select class="form-select" id="stress" name="stress">
+                        <option value="Low" <%= updateMood.stress === 'Low' ? 'selected' : '' %>>Low</option>
+                        <option value="Medium" <%= updateMood.stress === 'Medium' ? 'selected' : '' %>>Medium</option>
+                        <option value="High" <%= updateMood.stress === 'High' ? 'selected' : '' %>>High</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea 
+                        class="form-control" 
+                        id="comment" 
+                        name="comment" 
+                        rows="4"><%= updateMood.comment %></textarea>
+                </div>
+
+                <!-- Submit and cancel buttons -->
+                <button type="submit" class="btn btn-main">Update Entry</button>
+                <a href="/" class="btn btn-secondary">Cancel</a>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
